@@ -6,36 +6,18 @@ using System.Threading.Tasks;
 
 namespace SistemaLocadoraDeVeiculos
 {
-    public abstract class Veiculo
+    public abstract class Veiculo    //  | Pilar > Abstração
     {
-        private int qtddDias {  get; set; }
-        private double valorDiaria { get; set; }
-        public string Tipo { get; set; }
-        public string Marca { get; set; }
+
+        // Propriedades do Veículo > todas as classes filhas passaram a ter eles
+        public string Marca {  get; set; }
+        public string Modelo { get; set; }
         public string Cor {  get; set; }
         public string Placa { get; set; }
 
 
 
-        public Veiculo(string tipo, string marca, string cor, string placa)
-        {
-
-
-
-        }
-
-
-        public override string ToString()
-        {
-            return ($"Tipo: {this.Tipo}" +
-                $"Modelo: {this.Marca}" +
-                $"Cor: {this.Cor}" +
-                $"Placa: {this.Placa}");
-        }
-
-
-
-
-
+        // Toda classe filho deverá escrever este método
+        public abstract void ExibirInformacoes();
     }
 }

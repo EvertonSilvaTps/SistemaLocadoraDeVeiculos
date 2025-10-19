@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace SistemaLocadoraDeVeiculos
 {
-    internal class Pessoa
+    public class Pessoa
     {
+        public string Nome { get; set; }
+        public int Idade { get; set; }
+        public
+
     }
 }
