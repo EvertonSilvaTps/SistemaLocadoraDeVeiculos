@@ -18,13 +18,9 @@ namespace SistemaLocadoraDeVeiculos
         // Exibição das propriedades do caminhão   | Pilar > Polimorfismo (Sobreposição)
         public override void ExibirInformacoes()
         {
-            Console.WriteLine("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-            Console.WriteLine($"Marca: {this.Marca}");
-            Console.WriteLine($"Modelo: {this.Modelo}");
-            Console.WriteLine($"Carga: {this.Carga}");
-            Console.WriteLine($"Cor: {this.Cor}");
-            Console.WriteLine($"Placa: {this.Placa}");
-            Console.WriteLine("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+            Console.WriteLine($"  Marca: {this.Marca}  |  Modelo: {this.Modelo}  |  Carga: {this.Carga}");
+            Console.WriteLine($"  Cor: {this.Cor}  |  Placa: {this.Placa}");
+            Console.WriteLine("  ---------------------------------------------------------------------");
         }
 
 
@@ -32,11 +28,13 @@ namespace SistemaLocadoraDeVeiculos
         // Caminhões Pré-Cadastradas (adicionado na lista)
         public static void CaminhoesCadastrados()
         {
-            ListaDeCaminhoes.Add(new Caminhao { Marca = "Mercedes-Benz", Modelo = "Accelo 1016", Carga = "4 toneladas", Cor = "Branco", Placa = "ABC1234" });
-            ListaDeCaminhoes.Add(new Caminhao { Marca = "Volkswagen", Modelo = "Delivery 9.160", Carga = "4,5 toneladas", Cor = "Prata", Placa = "DEF5678" });
-            ListaDeCaminhoes.Add(new Caminhao { Marca = "Ford", Modelo = "Cargo 815", Carga = "6 toneladas", Cor = "Azul", Placa = "GHI9012" });
-            ListaDeCaminhoes.Add(new Caminhao { Marca = "Volvo", Modelo = "VM 270", Carga = "7 toneladas", Cor = "Branco", Placa = "JKL3456" });
-            ListaDeCaminhoes.Add(new Caminhao { Marca = "Iveco", Modelo = "Tector 170E21", Carga = "8 toneladas", Cor = "Vermelho", Placa = "MNO7890" });
+            if (ListaDeCaminhoes.Count == 0)
+            {
+                ListaDeCaminhoes.Add(new Caminhao { Marca = "Mercedes-Benz", Modelo = "Accelo 1016", Carga = "4 toneladas", Cor = "Branco", Placa = "ABC1234" });
+                ListaDeCaminhoes.Add(new Caminhao { Marca = "Volkswagen", Modelo = "Delivery 9.160", Carga = "4,5 toneladas", Cor = "Prata", Placa = "DEF5678" });
+                ListaDeCaminhoes.Add(new Caminhao { Marca = "Ford", Modelo = "Cargo 815", Carga = "6 toneladas", Cor = "Azul", Placa = "GHI9012" });
+                ListaDeCaminhoes.Add(new Caminhao { Marca = "Volvo", Modelo = "VM 270", Carga = "7 toneladas", Cor = "Branco", Placa = "JKL3456" });
+            }
         }
 
 
@@ -46,21 +44,21 @@ namespace SistemaLocadoraDeVeiculos
         {
             Caminhao novo = new Caminhao();
 
-            Console.Write("Marca: ");
+            Console.Write(" Marca: ");
             novo.Marca = Console.ReadLine();
-            Console.Write("Modelo: ");
+            Console.Write(" Modelo: ");
             novo.Modelo = Console.ReadLine();
-            Console.Write("Carga: ");
+            Console.Write(" Carga: ");
             novo.Carga = Console.ReadLine();
-            Console.Write("Cor: ");
+            Console.Write(" Cor: ");
             novo.Cor = Console.ReadLine();
-            Console.Write("Placa: ");
+            Console.Write(" Placa: ");
             novo.Placa = Console.ReadLine();
 
             //Adicionado na lista
             ListaDeCaminhoes.Add(novo);
             novo.ExibirInformacoes();
-            Console.WriteLine("\nCaminhão cadastrado!");
+            Console.WriteLine("\n Caminhão cadastrado!");
         }
 
 
@@ -68,7 +66,8 @@ namespace SistemaLocadoraDeVeiculos
         // Exibição dos caminhões que estão adicionados na lista, usando a função ExibirInformações
         public static void ExibirLista()
         {
-            Console.WriteLine("\n =-=-=-=-= Lista de Caminhoes =-=-=-=-=");
+            Console.Clear();
+            Console.WriteLine("\n -=-=-=-=-=-=-=-=-=-=     Lista de Caminhões     =-=-=-=-=-=-=-=-=-=-=\n");
 
             foreach (Caminhao caminhao in ListaDeCaminhoes)
             {

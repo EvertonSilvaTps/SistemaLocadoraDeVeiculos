@@ -8,26 +8,46 @@ namespace SistemaLocadoraDeVeiculos
 {
     public class Locacao
     {
-        private int qtddDias { get; set; }
-        private double valorDiaria { get; set; }
-        private double valorLocacao { get; set; }
+        public Cliente Cliente {  get; set; }
+        public Veiculo Veiculo { get; set; }
+        public double valorLocacao { get; set; }
+        public int dias {  get; set; }
+        public double diaria { get; set; }
 
+        public static List<Locacao> Locacoes = new List<Locacao>();
 
-        public Locacao(int qtddDias, double valorDiaria)
+        public Locacao(Cliente cliente, Veiculo veiculo, int dias, double diaria)
         {
-            Console.WriteLine();
-            
-            this.valorLocacao = qtddDias * valorDiaria;
+            this.Cliente = cliente;
+            this.Veiculo = veiculo;
+            this.dias = dias;
+            this.diaria = diaria;
+            this.valorLocacao = dias * diaria;
 
         }
 
         public override string ToString()
         {
-            return ($"Quantidade de Dias: {this.qtddDias}" +
-                $"Valor da Diária: {this.valorDiaria}" +
-                $"Valor da Locação: {this.valorLocacao}");
+            return ($"\n Cliente: {Cliente.Nome}" +
+                $"\n Veículo: Modelo {Veiculo.Modelo} | Marca {Veiculo.Marca}" +
+                $"\n Dias de locação: {dias} | Valor da diária: R$ {diaria:F2} | Valor Total: R$ {valorLocacao:F2}");
         }
 
+
+        public static void ListarLocacoes()
+        {
+            if (Locacao.Locacoes.Count == 0)
+            {
+                Console.WriteLine("\n Não há nenhuma locação registrada.");
+                Console.ReadLine();
+                return;
+            }
+            Console.Clear();
+            Console.WriteLine("\n=-=-=-=-=  Locações Registradas  =-=-=-=-=");
+            foreach (Locacao locacao in Locacao.Locacoes)
+                Console.WriteLine(locacao);
+            Console.ReadLine();
+        }
 
     }
 }

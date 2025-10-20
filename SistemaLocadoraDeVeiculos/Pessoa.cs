@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace SistemaLocadoraDeVeiculos
 {
-    public class Pessoa
+    public abstract class Pessoa
     {
         public string Nome { get; set; }
-        public int Idade { get; set; }
-        public
-
+        public int idade;
+        
+        public int Idade
+        {
+            get {  return idade; }
+            set
+            {
+                if (value >= 18)
+                    idade = value;
+            }
+        }
     }
 }
