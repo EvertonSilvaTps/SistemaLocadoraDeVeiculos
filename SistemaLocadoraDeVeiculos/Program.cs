@@ -1,222 +1,193 @@
-﻿using SistemaLocadoraDeVeiculos;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
+﻿using SistemaLocadoraDeVeiculos.Abstracts;
+using SistemaLocadoraDeVeiculos.Entities;
+using SistemaLocadoraDeVeiculos.Models;
+using System.Xml.Serialization;
 
-int opcao;
+RentalCompany rentalCompany = new RentalCompany();
 
-
-// Método > Menu Principal: Programa Final
-void MenuPrincipal()
+List<string> mainOptions = new List<string>()
 {
-    do
-    {
-        Console.Clear();
-        Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
-        Console.WriteLine(" |           >      Sistema de Locadora de Veículos      <          |");
-        Console.WriteLine(" |------------------------------------------------------------------|");
-        Console.WriteLine(" |     [ 1 ] Cadastrar Veículo     |     [ 2 ] Cadastrar Cliente    |");
-        Console.WriteLine(" |     [ 3 ] Lista de Veículos     |     [ 4 ] Lista de Clientes    |");
-        Console.WriteLine(" |     [ 5 ] Registrar Locação     |     [ 6 ] Remover Locação      |");
-        Console.WriteLine(" |     [ 7 ] Lista de Locações     |     [ 8 ] Sair                 |");
-        Console.WriteLine(" |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=|");
-        Console.WriteLine();
-        Console.Write("  >>> Informe o menu desejado: ");
-        opcao = int.Parse(Console.ReadLine());
+    "1 - Menu Clientes",
+    "2 - Menu Veículos",
+    "3 - Menu Locações",
+    "1 - Sair"
+};
 
-        switch (opcao)
-        {
-            case 1:
-                CadasVeiculo();
-                break;
-            case 2:
-                Cliente.CadastroDeCliente();
-                break;
-            case 3:
-                ExibirVeiculos();
-                break;
-            case 4:
-                Cliente.ExibirLista();
-                break;
-            case 5:
-                RegistrarLocacao();
-                break;
-            case 6:
-                RemoverLocacao();
-                break;
-            case 7:
-                Locacao.ListarLocacoes();
-                break;
-            default:
-                Console.WriteLine(" Encerrando o programa...");
-                break;
-        }
-        if (opcao == 8)
-            Console.ReadLine();
-    } while (opcao != 8);
-}
-
-
-
-// Método > Cadastro de veículos
-void CadasVeiculo()
+List<string> customerOptions = new List<string>()
 {
-    int es;
-    do
-    {
-        Console.Clear();
-        Console.WriteLine("|------------------------------------------------------------------|");
-        Console.WriteLine("|                         Tipos de Veículos                        |");
-        Console.WriteLine("|------------------------------------------------------------------|");
-        Console.WriteLine("|  [ 1 ] Carro  |  [ 2 } Moto  |  [ 3 ] Caminhão  |  [ 4 ] Voltar  |");
-        Console.WriteLine("|------------------------------------------------------------------|");
-        Console.WriteLine();
-        Console.Write("\n  Informe o número do veículo: ");
-        es = int.Parse(Console.ReadLine());
+    "Cadastrar Cliente",
+    "Listar Cliente",
+    "Atualizar Cliente",
+    "Remover Cliente",
+    "Voltar ao Menu Principal"
+};
 
-        switch (es)
-        {
-            case 1:
-                Console.Clear();
-                Carro.Cadastrar();
-                break;
-            case 2:
-                Console.Clear();
-                Moto.Cadastrar();
-                break;
-            case 3:
-                Console.Clear();
-                Caminhao.Cadastrar();
-                break;
-            default:
-                break;
-        }
-    } while (es != 4);
-}
-
-
-
-// Método > Lista de veículos
-void ExibirVeiculos()
+List<string> vehiclesOptions = new List<string>()
 {
-    Carro.ExibirLista();
-    Console.ReadLine();
-    Moto.ExibirLista();
-    Console.ReadLine();
-    Caminhao.ExibirLista();
-    Console.ReadLine();
-}
+    "Cadastrar Veículo",
+    "Listar Veículos",
+    "Atualizar Veículo",
+    "Remover Veículo",
+    "Voltar ao Menu Principal"
+};
 
-
-
-// Método > Registro de Locação : Leitura do cliente; do veículo; dias e valor da diária
-void RegistrarLocacao()
+List<string> rentalsOptions = new List<string>()
 {
-    Console.Clear();
-    if (Cliente.ListaDeClientes.Count == 0)    // Caso não tenha cliente cadastrado
-    {
-        Console.WriteLine("\n Não há registros de clientes. É necessário cadastrar primeiro.");
-        Console.ReadLine();
-        return;
-    }
+    "Cadastrar Locação",
+    "Listar Locações",
+    "Atualizar Locação",
+    "Remover Locação",
+    "Voltar ao Menu Principal"
+};
 
 
-    Console.WriteLine("\n=-=-=-=-=  Clientes Cadastrados  =-=-=-=-=\n");   // Exibir indices de clientes, e em seguida a escolha pelo usuário.
-    for (int i = 0; i < Cliente.ListaDeClientes.Count; i++)
-    {
-        Console.WriteLine($"[ {i} ] - {Cliente.ListaDeClientes[i].Nome}");
-    }
-
-    Console.Write("\nInforme o número do cliente: ");
-    int op = int.Parse(Console.ReadLine());
-    Cliente escolhaCliente = Cliente.ListaDeClientes[op];   // Tipo Cliente, conforme pede o construtor Locação
-
-    Console.WriteLine("\n=-=-=-=-=  Veículos Cadastrados  =-=-=-=-=\n");    // Exibir indices de veículos, e em seguida a escolha pelo usuário.
-    int cont = 0;
-    List<Veiculo> todosVeiculos = new List<Veiculo>();
-
-    foreach (Carro carro in Carro.ListaDeCarros)
-    {
-        Console.WriteLine($"{cont} - Carro: {carro.Modelo} | Marca: {carro.Marca}");
-        todosVeiculos.Add(carro);
-        cont++;
-    }
-    Console.WriteLine();
-    foreach (Moto moto in Moto.ListaDeMotos)
-    {
-        Console.WriteLine($"{cont} - Moto: {moto.Modelo} | Marca: {moto.Marca}");
-        todosVeiculos.Add(moto);
-        cont++;
-    }
-    Console.WriteLine();
-    foreach (Caminhao caminhao in Caminhao.ListaDeCaminhoes)
-    {
-        Console.WriteLine($"{cont} - Caminhão: {caminhao.Modelo} | Marca: {caminhao.Marca}");
-        todosVeiculos.Add(caminhao);
-        cont++;
-    }
-
-    Console.Write("\nInforme o número do veículo: ");
-    int opc = int.Parse(Console.ReadLine());
-    Veiculo escolhaVeiculo = todosVeiculos[opc];   // Tipo Veículo, conforme pede o construtor Locação
-
-    Console.Write("Quantidade de dias da locação: ");
-    int dias = int.Parse(Console.ReadLine());    // Tipo Int, conforme pede o construtor Locação
-    Console.Write("Valor da diária: R$ ");
-    double diaria = double.Parse(Console.ReadLine());    // Tipo Double, conforme pede o construtor Locação
-
-    Locacao novaLocacao = new Locacao(escolhaCliente, escolhaVeiculo, dias, diaria);  // Usado construtor da classe Locação
-    Locacao.Locacoes.Add(novaLocacao);
-
-    Console.WriteLine("\n=-=-=-=-=  Locação Registrada  =-=-=-=-=\n");
-    Console.WriteLine(novaLocacao);  // Impressão
-    Console.ReadLine();
-}
-
-
-
-// Método > Remover Locação
-void RemoverLocacao()
+void CreateCustomer()
 {
-    Console.Clear();
-    if (Locacao.Locacoes.Count == 0)
-    {
-        Console.WriteLine("\n Nenhuma locação foi registrada.");
-        Console.ReadLine();
-        return;
-    }
+    Console.WriteLine("Informe o nome do cliente:");
+    string name = Console.ReadLine() ?? "";
+    Console.WriteLine("Informe a data de nascimento do cliente:");
+    DateOnly birthDate = DateOnly.Parse(Console.ReadLine() ?? "");
+    Console.WriteLine("Informe o email do cliente:");
+    string email = Console.ReadLine() ?? "";
+    Console.WriteLine("Informe o logradouro do cliente: ");
+    string street = Console.ReadLine() ?? "";
+    Console.WriteLine("Informe o número do endereço do cliente: ");
+    string number = Console.ReadLine() ?? "";
+    Console.WriteLine("Informe o complemento do endereço do cliente: ");
+    string complement = Console.ReadLine() ?? "";
+    Console.WriteLine("Informe o bairro do cliente: ");
+    string neighborhood = Console.ReadLine() ?? "";
+    Console.WriteLine("Informe a cidade do cliente: ");
+    string city = Console.ReadLine() ?? "";
+    Console.WriteLine("Informe o estado do cliente: ");
+    string state = Console.ReadLine() ?? "";
+    Console.WriteLine("Informe o CEP do cliente: ");
+    string zipCode = Console.ReadLine() ?? "";
 
-    Console.WriteLine("\n =-=-=-=-=  Locações Registradas  =-=-=-=-=\n");
-    for (int i = 0; i < Locacao.Locacoes.Count; i++)
-    {
-        Console.WriteLine($"[ {i} ] - {Locacao.Locacoes[i]}");
-    }
+    var contact = new Contact(email, null);
+    var address = new Address(street, int.Parse(number), neighborhood, zipCode, complement, city, state, "BR");
 
-    Console.Write(" Informe o número da locação que deseja remover: ");
-    int esc = int.Parse(Console.ReadLine());
-
-    if (esc >= 0 && esc < Locacao.Locacoes.Count)
+    Console.WriteLine("Qual tipo do cliente está cadastrando? (1 para PF, 2 para PJ):");
+    int customerType = int.Parse(Console.ReadLine() ?? "1");
+    if (customerType == 1)
     {
-        Locacao.Locacoes.RemoveAt(esc);             // O RemoveAt ele remove com base ao índice
-        Console.WriteLine(" Locação removida!");
+        Console.WriteLine("Informe o número da CNH: ");
+        string cnh = Console.ReadLine() ?? "";
+        Console.WriteLine("Informe o número da CPF: ");
+        string cpf = Console.ReadLine() ?? "";
+        var customer = new CustomerPF(name, birthDate, contact, address, cnh, cpf);
+        rentalCompany.Customers.Add(customer);
     }
     else
-        Console.WriteLine(" Número inválido!");
-    Console.ReadLine();
+    {
+        Console.WriteLine("Informe o CNPJ da empresa: ");
+        string cnpj = Console.ReadLine() ?? "";
+        var customer = new CustomerPJ(name, birthDate, contact, address, cnpj);
+        rentalCompany.Customers.Add(customer);
+    }
 }
 
-
-
-// Método > Chamando as funções de Veículos Cadastrados
-void InicializarVeiculosPréCadastrados()
+Person FindCustomerByName(string name)
 {
-    Carro.CarrosCadastrados();
-    Moto.MotosCadastradas();
-    Caminhao.CaminhoesCadastrados();
+    return rentalCompany.Customers.Find(c => c.GetName() == name);
+}
+
+
+void DeleteCustomer()
+{
+    Console.WriteLine("Informe o nome do cliente a ser removido:");
+    string name = Console.ReadLine() ?? "";
+    var customer = FindCustomerByName(name);
+    if (customer is not null)
+    {
+        rentalCompany.Customers.Remove(customer);
+        Console.WriteLine("Cliente removido com sucesso.");
+    }
+    else
+    {
+        Console.WriteLine("Cliente não encontrado.");
+    }
+}
+
+
+Person UpdatePhone()
+{
+    Console.WriteLine("Informe o nome do cliente a ser atualizado: ");
+    string name = Console.ReadLine() ?? "";
+    var customer = FindCustomerByName(name);
+    if (customer is not null)
+    {
+        Console.WriteLine("Informe o telefone do cliente: ");
+        string phone = Console.ReadLine() ?? "";
+        customer.setContactPhone(phone);
+        Console.WriteLine("Telefone atualizado com sucesso.");
+    }
+    else
+    {
+        Console.WriteLine("Cliente não encontrado.");
+    }
+        return customer;
+}
+
+
+void ListCustomers()
+{
+    Console.WriteLine("=== Lista de Clientes ===");
+    foreach(var customer in rentalCompany.Customers)
+    {
+        Console.WriteLine(customer);
+        //Console.WriteLine(customer.ToString());
+    }
 }
 
 
 
+void CustomerMenu(int option)
+{
+    switch (option)
+    {
+        case 1:
+            CreateCustomer();
+            break;
+        case 2:
+            ListCustomers();
+            break;
+        case 3:
+            Console.WriteLine(UpdatePhone());
+            break;
+        case 4:
+            DeleteCustomer();
+            break;
+        default:
+            Console.WriteLine("Opção inválida. Tente novamente.");
+            break;
+    }
+}
 
-// Rodar o programa
-InicializarVeiculosPréCadastrados();
-MenuPrincipal();
+
+
+do
+{
+    int mainChoice = Menu.Display("=== Menu Principal ===", mainOptions);
+
+    switch (mainChoice)
+    {
+        case 1:
+            int customerChoice = Menu.Display("Menu Clientes ===", customerOptions);
+            CustomerMenu(customerChoice);
+            break;
+        case 2:
+            int vehicleChoice = Menu.Display("Menu Veículos ===", vehiclesOptions);
+            break;
+        case 3:
+            int rentalChoice = Menu.Display("Menu Locações ===", rentalsOptions);
+            break;
+        case 4:
+            Console.WriteLine("Saindo do programa...");
+            break;
+        default:
+            Console.WriteLine("Opção inválida. Tente novamente.");
+            break;
+
+    }
+} while (true);
